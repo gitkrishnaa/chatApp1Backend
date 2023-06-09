@@ -1,5 +1,6 @@
 const db_user=require("../models/user");
-const bcrypt=require("bcrypt")
+const bcrypt=require("bcrypt");
+const jwt=require("jsonwebtoken")
 module.exports.sign_up=async (req,res)=>{
 
 console.log(req.body)
@@ -54,10 +55,10 @@ console.log("note-",["data inserted sucessfull in database from user contrller"]
 
 module.exports.login=async(req,res)=>{
 console.log("login from user controller")
-    console.log(req.body)
+    console.log(req.body,"req.body")
     const email=req.body.user_email
     const password=req.body.user_password;
-    
+    console.log(email,password)
     try {
     
         const user=await db_user.findAll({where:{email:email}})
@@ -69,12 +70,30 @@ console.log("login from user controller")
             return; 
         }
         else{
-            console.log(user)
+     //compare user password t database user encrypt password
+            const user_id=user[0].dataValues.id
+            const encrypted_password_db=user[0].dataValues.password;
+            console.log(password,encrypted_password_db)
             console.log("user email exist, sucess /from user_controller ")
-    //  const checkPassword=bcrypt.compare(password,)
-              //compare user password t database user encrypt password
-        const salt=10  
-        res.json({message:"user login sucessful",staus:true})
+     const checkPassword=bcrypt.compare(password,encrypted_password_db,(err,resp)=>{
+if(resp){
+    //note - sing use sucess fully login so generate jwt token
+  
+  //generate secret key
+    const secretKey="krishnakey"
+   const token=jwt.sign({id:user_id,email:email},secretKey)
+   
+   
+    res.json({message:"user login sucessful",staus:true,jwtKey:token})
+}
+else{
+    res.json({message:"password not match",staus:false})
+
+}
+     })
+
+
+        
 
         }
     
