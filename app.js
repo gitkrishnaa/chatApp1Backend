@@ -11,9 +11,12 @@ const db=require("./database/db.js")
 
 //importing models
 const user=require("./models/user.js")
+const chat1_module=require("./models/chat1.js")
 
 //import routes
 const userRoute=require("./routes/user.js")
+const chat1Route=require("./routes/chat1.js")
+
 
 
 const app=express()
@@ -30,11 +33,19 @@ app.use(express.json())
 
 //routing
 app.use("/user",userRoute)
+app.use("/chat",chat1Route)
 
 
 
 
 //database part ................................
+
+
+
+chat1_module.hasMany(user);
+user.hasMany(chat1_module)
+
+
 // db.sync({force:true})
 db.sync()
 .then((data)=>{

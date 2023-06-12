@@ -73,6 +73,10 @@ console.log("login from user controller")
      //compare user password t database user encrypt password
             const user_id=user[0].dataValues.id
             const encrypted_password_db=user[0].dataValues.password;
+            const user_name=user[0].dataValues.name;//name of the user from database
+            const user_email=user[0].dataValues.email;//name of the user from database
+
+
             console.log(password,encrypted_password_db)
             console.log("user email exist, sucess /from user_controller ")
      const checkPassword=bcrypt.compare(password,encrypted_password_db,(err,resp)=>{
@@ -84,7 +88,7 @@ if(resp){
    const token=jwt.sign({id:user_id,email:email},secretKey)
    
    
-    res.json({message:"user login sucessful",staus:true,jwtKey:token})
+    res.json({message:"user login sucessful",status:true,jwtKey:token,user_name:user_name,user_id:user_id,user_email:user_email})
 }
 else{
     res.json({message:"password not match",staus:false})
