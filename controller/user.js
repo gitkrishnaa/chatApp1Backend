@@ -59,6 +59,10 @@ console.log("login from user controller")
     const email=req.body.user_email
     const password=req.body.user_password;
     console.log(email,password)
+
+  if(!email || !password) {
+    res.json({message:"email ot password value is empty, check your front end code",staus:false})
+  }
     try {
     
         const user=await db_user.findAll({where:{email:email}})
@@ -115,3 +119,21 @@ else{
     }
 
 }
+module.exports.all_user_list=async (req,res)=>{
+
+    //reciving message
+    const recivedMessage=req.body.message;
+    const user_email=req.user.email;
+    const user_id=req.user.id
+    console.log(recivedMessage)
+    console.log(req.body)
+    try{
+        const resp_of_insert_data=await db_user.findAll({attributes:["id","name","mobile","email"]} )
+        res.status(200).json({message:"ok",status:true,data:resp_of_insert_data})
+    } catch (error) {
+        console.log(error)
+        res.status(200).json({message:"error in backend",error:error,status:false})
+    }
+    
+    
+    }
