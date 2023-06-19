@@ -124,7 +124,7 @@ module.exports.all_user_list=async (req,res)=>{
     //reciving message
     const recivedMessage=req.body.message;
     const user_email=req.user.email;
-    const user_id=req.user.id
+    const user_id=req.user.id;
     console.log(recivedMessage)
     console.log(req.body)
     try{

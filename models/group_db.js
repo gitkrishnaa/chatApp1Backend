@@ -1,22 +1,26 @@
 const { Sequelize } = require("sequelize");
 const db_connection = require("../database/db.js");
-const user = db_connection.define("users", {
+const Group_info = db_connection.define("groups", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  name: { type: Sequelize.STRING, allowNull: false },
-  password: { type: Sequelize.STRING, allowNull: false },
-  email: {
+
+  name: {
     type: Sequelize.STRING,
-    unique: true,
+    unique:false,
+
     allowNull: false,
   },
-  mobile: {
+  logo: {
     type: Sequelize.STRING,
-    unique: true,
+    unique:false,
+    allowNull: false,
+  },
+  super_admin_email: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
 });
-module.exports=user;
+module.exports=Group_info;
