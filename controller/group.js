@@ -135,4 +135,40 @@ module.exports.users_related_group=async (req,res)=>{
     
     
     }
+module.exports.save_group_chat=async (req,res)=>{
+
+try {
+    const data=req.body
+    const {group_id,message,sender_user_id}=data.data
+    console.log(data,group_id,message,sender_user_id)
+
+const resp=await group_messages.create({
+    message:message,
+    groupId:group_id,
+    userId:sender_user_id,
+   
+})
+
+
+
+    res.json({message:"ok",data:resp,status:true})
+} catch (error) {
+    res.json({message:"backend error"})   
+}
+
+}
+module.exports.group_chat_data=async (req,res)=>{
+
+    try {
+        
+    const resp=await group_messages.findAll({where:{groupId:6}})
     
+    console.log(resp)
+    
+        res.json({message:"ok",data:resp,status:true})
+    } catch (error) {
+        res.json({message:"backend error"})   
+    }
+    
+    }
+  

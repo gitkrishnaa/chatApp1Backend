@@ -75,6 +75,7 @@ chat1_module.hasMany(user);
 user.belongsTo(chat1_module)
 
 
+
 // db.sync({force:true})
 db.sync()
 .then((data)=>{
@@ -88,7 +89,6 @@ app.listen(PORT,()=>{
 .catch((err)=>{
     console.log(err)
 })
-
 
 
 
