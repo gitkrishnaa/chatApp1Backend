@@ -49,14 +49,19 @@ const group_db=require("./models/group_db.js")
 const group_user_junction=require("./models/grup_user_juntion.js")
 const group_messages=require("./models/group_messge_db_model.js")
 
+
+
+user.hasMany(group_db,{foreignKey:"user_super_admin"})
+group_db.belongsTo(user,{foreignKey:"user_super_admin"})
+
+
+
 group_db.belongsToMany(user,{through:group_user_junction})
 user.belongsToMany(group_db,{through:group_user_junction})
 
 // group_messages.belo
 
 
-user.hasMany(group_db,{foreignKey:"user_super_admin"})
-group_db.belongsTo(user,{foreignKey:"user_super_admin"})
 
 
 user.hasMany(group_messages);
@@ -67,7 +72,7 @@ group_messages.belongsTo(group_db);
 
 //first all user v=chat group
 chat1_module.hasMany(user);
-user.hasMany(chat1_module)
+user.belongsTo(chat1_module)
 
 
 // db.sync({force:true})

@@ -92,3 +92,47 @@ res.json({data:receiveing_obj,message:"members added",status:true})
     res.json({message:"error in backendend in controller/group.js",status:false})
 }
 }
+module.exports.group_data=async (req,res)=>{
+
+//# sending user group list where they are member
+try {
+//     const user_data_obj=req.body.user_data;
+// const user_id=user_data_obj.user_id;
+// const user_email=user_data_obj.user_email;
+const query_obj=req.query.x
+console.log(query_obj)
+const resp=await users.findAll({where:{id:query_obj},include:group_model})
+console.log(resp)
+res.json({data:resp})
+} catch (error) {
+    res.json({data:error,message:"error in backend"})
+console.log(error)
+}
+
+
+}
+module.exports.users_related_group=async (req,res)=>{
+
+    //# sending user group list where they are member
+    try {
+        const data=req.body.data;
+       
+    //     const user_data_obj=req.body.user_data;
+    // const user_id=user_data_obj.user_id;
+    // const user_email=user_data_obj.user_email;
+    const query_obj=req.query.user_id
+
+    user_id=data.user_id || query_obj
+
+    console.log(query_obj)
+    const resp=await users.findAll({where:{id:user_id},include:group_model,attributes:["name","email","id"]})
+    console.log(resp)
+    res.json({data:resp,message:"user releted group is recived",status:true,note:"you can send data from body data{userid:x} or in as query in user_id key"})
+    } catch (error) {
+        res.json({data:error,message:"error in backend",status:false})
+    console.log(error)
+    }
+    
+    
+    }
+    
