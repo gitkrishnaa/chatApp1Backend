@@ -126,7 +126,8 @@ module.exports.users_related_group=async (req,res)=>{
 
     console.log(query_obj)
     const resp=await users.findAll({where:{id:user_id},include:group_model,attributes:["name","email","id"]})
-    console.log(resp)
+    // console.log(resp)
+    console.log("user releted group send to fronend side..........")
     res.json({data:resp,message:"user releted group is recived",status:true,note:"you can send data from body data{userid:x} or in as query in user_id key"})
     } catch (error) {
         res.json({data:error,message:"error in backend",status:false})
@@ -160,10 +161,11 @@ const resp=await group_messages.create({
 module.exports.group_chat_data=async (req,res)=>{
 
     try {
-        
-    const resp=await group_messages.findAll({where:{groupId:6}})
+        const group_id=req.body.group_id
+console.log(group_id,"uh")
+    const resp=await group_messages.findAll({where:{groupId:group_id}})
     
-    console.log(resp)
+    console.log("from group_chat_data in controller ...........")
     
         res.json({message:"ok",data:resp,status:true})
     } catch (error) {
