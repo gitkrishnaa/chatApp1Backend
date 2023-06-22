@@ -1,7 +1,8 @@
 const group_model=require("../models/group_db");
 const group_and_user_junction=require("../models/grup_user_juntion");
 const group_messages=require("../models/group_messge_db_model");
-const users=require("../models/user")
+const users=require("../models/user");
+const { compareSync } = require("bcrypt");
 
 module.exports.group_create=async (req,res)=>{
 const receiveing_obj=req.body
@@ -101,10 +102,12 @@ try {
 // const user_email=user_data_obj.user_email;
 const query_obj=req.query.x
 console.log(query_obj)
-const resp=await users.findAll({where:{id:query_obj},include:group_model})
-console.log(resp)
+const resp=await group_model.findAll({where:{id:query_obj},include:users})
+// console.log(resp)
+console.log("from group_data in controller ...........")
 res.json({data:resp})
 } catch (error) {
+    console.log("from group_data in controller ...........")
     res.json({data:error,message:"error in backend"})
 console.log(error)
 }
@@ -174,3 +177,42 @@ console.log(group_id,"uh")
     
     }
   
+module.exports.group_delete=async (req,res)=>{
+
+    try {
+// const resp=await group_messages.findAll({where:{id:25}})
+// res.json({message:"ok",data:resp})
+console.log("ok")
+const resp=await group_model.destroy(
+    {where:{id:2}})
+res.json({message:"ok",data:resp})
+
+console.log(resp)
+    } catch (error) {
+        
+    }
+}
+module.exports.group_member_delete=async (req,res)=>{
+
+    try {
+// const resp=await group_messages.findAll({where:{id:25}})
+// res.json({message:"ok",data:resp})
+
+
+const data_obj=req.body.data
+console.log(data_obj)
+
+
+const member_id=data_obj.member_id
+
+const resp=await group_and_user_junction.destroy(
+    {where:{id:member_id}})
+res.json({message:"user removed ",data:resp,status:true})
+
+
+    } catch (error) {
+        console.log(error)
+    res.json({message:"user not removed,may be backend error",data:error,status:false})
+
+    }
+}

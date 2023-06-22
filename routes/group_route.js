@@ -10,6 +10,8 @@ routes.post("/group_data",groups_controller.group_data);
 
 routes.post("/save_group_chat",groups_controller.save_group_chat);
 routes.post("/group_chat_data",groups_controller.group_chat_data);
+routes.post("/group_delete",groups_controller.group_delete);
 
+    routes.post("/group_member_delete",groups_controller.group_member_delete);
 
 module.exports=routes;

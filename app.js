@@ -50,14 +50,18 @@ const group_user_junction=require("./models/grup_user_juntion.js")
 const group_messages=require("./models/group_messge_db_model.js")
 
 
-
+//note-problem-> when data fetching the include in findAll 
+//not ,return  releted data but if use in such order then 
+//working fine
 user.hasMany(group_db,{foreignKey:"user_super_admin"})
-group_db.belongsTo(user,{foreignKey:"user_super_admin"})
-
-
 
 group_db.belongsToMany(user,{through:group_user_junction})
+
+group_db.belongsTo(user,{foreignKey:"user_super_admin"})
+
 user.belongsToMany(group_db,{through:group_user_junction})
+
+
 
 // group_messages.belo
 
